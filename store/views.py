@@ -1,16 +1,18 @@
 from django.shortcuts import render
 
+# Create your views here.
 from store.models import Product
 
 
-def home(request):
+def store(request):
     products = Product.objects.all().filter(is_available=True)
-
+    product_count = products.count()
     context = {
         "products": products,
-        "mainHeader": "Popular products",
+        "product_count":product_count,
         "style": {
-            "card_size": "3"
+            "card_size": "4"
         }
     }
-    return render(request, 'home.html', context)
+
+    return render(request, 'store/store.html',context)
