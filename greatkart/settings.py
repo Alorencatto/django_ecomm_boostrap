@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'category',
     'accounts',
     'store',
-    'carts'
+    'carts',
+    'widget_tweaks', #Teste com um crud,
+    'crudapp'
 ]
 
 MIDDLEWARE = [
