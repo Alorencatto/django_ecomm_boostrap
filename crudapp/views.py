@@ -10,13 +10,11 @@ def index_view(request):
     context = {
         "contacts": contacts
     }
-
-    # return render(request, 'crudapp/index.html', context)
     return render(request, 'crudapp/index.html', context)
 
 
-def contact_details_view(request,pk):
-    contact = get_object_or_404(Contact,pk=pk)
+def contact_details_view(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
     context = {
 
     }
@@ -36,7 +34,7 @@ def create(request):
 
 def edit(request, pk, template_name='crudapp/edit.html'):
     contact = get_object_or_404(Contact, pk=pk)
-    form = ContactForm(request.POST or None)
+    form = ContactForm(request.POST or None, instance=contact)
     if form.is_valid():
         form.save()
         return redirect('index')

@@ -1,9 +1,12 @@
 from django.db import connection, transaction
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
+from carts.views import _cart_id
 from category.models import Category
 from store.models import Product
+from carts.models import Cart,CartItem
 
 
 # Funciona!
@@ -29,7 +32,7 @@ def test_transaction():
 
     print(row)
 
-
+# Funciona!
 def test_manual_transaction():
     """
     Demonstração de uma transaction manula
@@ -81,11 +84,16 @@ def store(request, category_slug=None):
 
 def product_detail(request, category_slug, product_slug):
     try:
+        #Checa se o produto selecionado está no carrinho
         single_product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+        in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request),product = single_product).exists()
+        # return HttpResponse(in_cart)
+        # exit()
     except Exception as e:
         raise e
 
     context = {
-        "single_product": single_product
+        "single_product": single_product,
+        "in_cart":in_cart
     }
     return render(request, "store/product_detail.html", context)
